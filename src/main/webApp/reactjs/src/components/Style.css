@@ -1,0 +1,10 @@
+.card-margins {
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+
+.flexSpaceBtw {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

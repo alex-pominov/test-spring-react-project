@@ -1,9 +1,12 @@
-import React from 'react';
+import StudentsList from './components/StudentsList';
+
+// import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello world!</h1>
+    <div className="container">
+      <StudentsList />
+      {/* <Footer /> */}
     </div>
   );
 }
