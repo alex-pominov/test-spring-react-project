@@ -1,5 +1,6 @@
-package com.spring.practice.student;
+package com.spring.practice.controller;
 
+import com.spring.practice.domain.Student;
 import com.spring.practice.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

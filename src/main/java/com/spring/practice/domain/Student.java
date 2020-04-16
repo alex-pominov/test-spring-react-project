@@ -1,4 +1,4 @@
-package com.spring.practice.student;
+package com.spring.practice.domain;
 
 import java.util.UUID;
 

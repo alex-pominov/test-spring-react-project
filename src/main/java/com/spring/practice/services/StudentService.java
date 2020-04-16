@@ -1,30 +1,23 @@
 package com.spring.practice.services;
 
-import com.spring.practice.student.Student;
+import com.spring.practice.domain.Student;
+import com.spring.practice.repository.StudentDataAccessService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class StudentService {
 
+    @Autowired
+    private final StudentDataAccessService studentDataAccessService;
+
+    public StudentService(StudentDataAccessService studentDataAccessService) {
+        this.studentDataAccessService = studentDataAccessService;
+    }
+
     public List<Student> getAllStudents() {
-        return List.of(
-                new Student(
-                        UUID.randomUUID(),
-                        "Alex",
-                        "Pominov",
-                        "alex@gmail.com",
-                        Student.Gender.MALE
-                ),
-                new Student(
-                        UUID.randomUUID(),
-                        "Elisa",
-                        "Tamara",
-                        "elisa@gmail.com",
-                        Student.Gender.FEMALE
-                )
-        );
+        return studentDataAccessService.selectAllStudents();
     }
 }
