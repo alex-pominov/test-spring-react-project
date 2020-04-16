@@ -1,10 +1,17 @@
 import React from 'react';
-import { Table, Badge, Spinner } from 'react-bootstrap';
-import { getAllstrudents } from '../client';
+import {Badge, Button, Card, Spinner, Table} from 'react-bootstrap';
+import {getAllstrudents} from '../client';
+import './Style.css';
+import AddStudentModal from './AddStudentModal';
 
 const StudentsList = () => {
   const [students, setStudents] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+
+  const [showAddStudentModal, setShowAddStudentModal] = React.useState(true);
+
+  const handleCloseModal = () => setShowAddStudentModal(false);
+  const handleShowModal = () => setShowAddStudentModal(true);
 
   const fetchData = () => {
     setLoading(true);
@@ -39,34 +46,51 @@ const StudentsList = () => {
     }
     return (
       <tr align="center">
-        <td colSpan="100">No students found</td>
+        <td colSpan="5">No students found</td>
       </tr>
     );
   };
 
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Avatar</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        {loading ? (
-          <tr align="center">
-            <td colSpan="100">
-              <Spinner animation="grow" />
-            </td>
-          </tr>
-        ) : (
-          studentRow()
-        )}
-      </tbody>
-    </Table>
+    <>
+      <AddStudentModal show={showAddStudentModal} handleClose={() => handleCloseModal()} />
+      <Card className="border border-dark bg-dark text-white card-margins">
+        <Card.Header>
+          <h1>List of the students</h1>
+        </Card.Header>
+        <Card.Body>
+          <Table bordered hover striped variant="dark">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Avatar</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr align="center">
+                  <td colSpan="5">
+                    <Spinner animation="grow" />
+                  </td>
+                </tr>
+              ) : (
+                studentRow()
+              )}
+            </tbody>
+          </Table>
+        </Card.Body>
+        <Card.Footer className="flexSpaceBtw">
+          {students.length !== 0 && `Amount of students - ${students.length}`}
+
+          <Button size="sm" variant="success" type="submit" onClick={() => handleShowModal()}>
+            Add new Student
+          </Button>
+        </Card.Footer>
+      </Card>
+    </>
   );
 };
 
