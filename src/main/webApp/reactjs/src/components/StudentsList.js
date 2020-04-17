@@ -2,13 +2,12 @@ import React from 'react';
 import {Badge, Button, Card, Spinner, Table} from 'react-bootstrap';
 import {getAllstrudents} from '../client';
 import './Style.css';
-import AddStudentModal from './AddStudentModal';
+import AddStudentModal from './Modals/AddStudentModal';
 
 const StudentsList = () => {
   const [students, setStudents] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
-
-  const [showAddStudentModal, setShowAddStudentModal] = React.useState(true);
+  const [showAddStudentModal, setShowAddStudentModal] = React.useState(false);
 
   const handleCloseModal = () => setShowAddStudentModal(false);
   const handleShowModal = () => setShowAddStudentModal(true);
@@ -21,18 +20,25 @@ const StudentsList = () => {
         setStudents(data);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((error) => {
+        setLoading(false);
+        alert(error);
+      });
   };
 
   React.useEffect(() => {
     fetchData();
   }, []);
 
+  const handleSubmitForm = () => {
+    fetchData();
+    setShowAddStudentModal(false);
+  };
+
   const studentRow = () => {
     if (students.length !== 0) {
       return students.map((student, i) => (
         <tr key={student.studentId}>
-          <td>{i + 1}</td>
           <td align="center">
             <Badge variant="primary" pill>{`${student.firstName
               .charAt(0)
@@ -53,7 +59,11 @@ const StudentsList = () => {
 
   return (
     <>
-      <AddStudentModal show={showAddStudentModal} handleClose={() => handleCloseModal()} />
+      <AddStudentModal
+        show={showAddStudentModal}
+        handleClose={() => handleCloseModal()}
+        onFormSubmit={() => handleSubmitForm()}
+      />
       <Card className="border border-dark bg-dark text-white card-margins">
         <Card.Header>
           <h1>List of the students</h1>
@@ -62,7 +72,6 @@ const StudentsList = () => {
           <Table bordered hover striped variant="dark">
             <thead>
               <tr>
-                <th>#</th>
                 <th>Avatar</th>
                 <th>First Name</th>
                 <th>Last Name</th>
@@ -83,8 +92,7 @@ const StudentsList = () => {
           </Table>
         </Card.Body>
         <Card.Footer className="flexSpaceBtw">
-          {students.length !== 0 && `Amount of students - ${students.length}`}
-
+          {`Amount of students - ${students.length}`}
           <Button size="sm" variant="success" type="submit" onClick={() => handleShowModal()}>
             Add new Student
           </Button>
