@@ -8,3 +8,12 @@
   justify-content: space-between;
   align-items: center;
 }
+
+@keyframes loseOpacity {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
